@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 from flask import Flask
-from views import IndexPage, LoginRegister
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
 
@@ -24,6 +23,7 @@ from karma.views import api
 from karma.models import User
 
 app.register_blueprint(api, url_prefix="")
+
 
 @lm.user_loader
 def load_user(userid):
