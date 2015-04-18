@@ -33,12 +33,12 @@ class LoginRegister(restful.Resource):
             abort(400)
 
         if obj is not None:
-            user = User.query.filter_by(username=obj['user']['username']).first_or_404()
+            user = User.query.filter_by(
+                username=obj['user']['username']).first_or_404()
             if user.verify_password(obj['user']['password']):
                 login_user(user)
                 return {"status": 200}
         abort(400)
-
 
     def put(self):
         # TODO: register the user
@@ -51,7 +51,8 @@ class LoginRegister(restful.Resource):
             abort(400)
 
         if obj is not None:
-            user = User.query.filter_by(username=obj['user']['username']).first()
+            user = User.query.filter_by(
+                username=obj['user']['username']).first()
             if not user:
                 new_user = User(username=obj['user']['username'],
                                 password=obj['user']['password'])

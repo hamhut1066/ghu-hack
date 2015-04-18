@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 from flask.ext.restful import Resource
-from flask import jsonify
 from models.charity import Charity as C
 
 
@@ -11,8 +10,8 @@ class Charity(Resource):
 
         return {"id": c.id,
                 "name": c.name,
-                "description": c.description
-        }
+                "description": c.description}
+
 
 class Charities(Resource):
     def get(self):
