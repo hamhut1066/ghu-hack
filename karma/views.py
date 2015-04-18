@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+
 from flask import render_template, make_response, Blueprint, request, abort
 from flask.ext import restful
 from flask.ext.restful import Api
@@ -51,7 +52,6 @@ class LoginRegister(restful.Resource):
 
         if obj is not None:
             user = User.query.filter_by(username=obj['user']['username']).first()
-            print user
             if not user:
                 new_user = User(username=obj['user']['username'],
                                 password=obj['user']['password'])
@@ -59,7 +59,7 @@ class LoginRegister(restful.Resource):
                 db.session.commit()
                 login_user(new_user)
                 return {"status": 200}
-        return {"status": 200}
+        return {"status": 400}
         # TOOD: login the user
 
 

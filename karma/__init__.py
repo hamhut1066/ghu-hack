@@ -25,6 +25,9 @@ from karma.models import User
 
 app.register_blueprint(api, url_prefix="")
 
+@lm.user_loader
+def load_user(userid):
+    return User.query.filter_by(username=userid).first()
 
 if __name__ == '__main__':
         app.run(debug=True)

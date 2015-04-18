@@ -14,3 +14,4 @@ from karma.api.charity import Charity
 
 # Adding resources
 rest.add_resource(Charity, '/charities/<string:charity_name>')
+# rest.add_resource(Charities, '/charities/')
