@@ -25,4 +25,4 @@ class Charities(Resource):
                 "name": charity.name,
                 "description": charity.description
             })
-        return ret
+        return {"data": ret}

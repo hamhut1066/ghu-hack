@@ -31,7 +31,7 @@ class Posts(Resource):
                 "content": post.content,
                 "user_id": post.user_id
             })
-        return ret
+        return {"data": ret}
 
     def put(self):
         try:
