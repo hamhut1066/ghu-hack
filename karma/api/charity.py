@@ -25,4 +25,5 @@ class Charities(Resource):
                 "name": charity.name,
                 "description": charity.description
             })
+        ret.reverse()
         return {"data": ret}

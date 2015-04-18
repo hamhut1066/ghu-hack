@@ -41,6 +41,7 @@ class Posts(Resource):
                 "content": post.content,
                 "user_id": post.user_id
             })
+        ret.reverse()
         return {"data": ret}
 
     def put(self):
