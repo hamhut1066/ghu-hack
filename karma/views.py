@@ -59,7 +59,7 @@ class LoginRegister(restful.Resource):
                 db.session.commit()
                 login_user(new_user)
                 return {"status": 200}
-        abort(400)
+        return {"status": 200}
         # TOOD: login the user
 
 
