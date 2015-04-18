@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+from flask import request
+import json
+from flask.ext.login import current_user
 from flask.ext.restful import Resource
 from karma.api.models.post import Post as P
 
@@ -29,3 +32,10 @@ class Posts(Resource):
                 "user_id": post.user_id
             })
         return ret
+
+    def put(self):
+        try:
+            obj = json.loads(request.data)
+        except ValueError:
+            return {"status": 400}
+        

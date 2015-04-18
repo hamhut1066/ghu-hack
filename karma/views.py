@@ -25,7 +25,6 @@ class LoginRegister(restful.Resource):
         return make_response(render_template('login.html'), 200, headers)
 
     def post(self):
-        # TODO: login the user
         from models import User
         try:
             obj = json.loads(request.data)
@@ -36,12 +35,11 @@ class LoginRegister(restful.Resource):
             user = User.query.filter_by(
                 username=obj['user']['username']).first_or_404()
             if user.verify_password(obj['user']['password']):
-                login_user(user)
-                return {"status": 200}
+                login_user(user, remember=True)
+                return {"status": 200, "user": user.id}
         abort(400)
 
     def put(self):
-        # TODO: register the user
         from models import User
         from karma import db
 
@@ -58,8 +56,8 @@ class LoginRegister(restful.Resource):
                                 password=obj['user']['password'])
                 db.session.add(new_user)
                 db.session.commit()
-                login_user(new_user)
-                return {"status": 200}
+                login_user(new_user, remember=True)
+                return {"status": 200, "user": new_user.id}
         return {"status": 400}
         # TOOD: login the user
 

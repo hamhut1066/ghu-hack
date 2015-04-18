@@ -15,6 +15,6 @@ from karma.api.post import Post, Posts
 
 # Adding resources
 rest.add_resource(Charity, '/charities/<int:charity_name>')
-rest.add_resource(Charities, '/charities/')
+rest.add_resource(Charities, '/charities')
 rest.add_resource(Post, '/posts/<int:post_id>')
 rest.add_resource(Posts, '/posts')
