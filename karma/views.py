@@ -35,7 +35,7 @@ class LoginRegister(restful.Resource):
             user = User.query.filter_by(username=obj['user']['username']).first_or_404()
             if user.verify_password(obj['user']['password']):
                 login_user(user)
-                return {"status": "OK"}
+                return {"status": 200}
         abort(400)
 
 
@@ -58,7 +58,7 @@ class LoginRegister(restful.Resource):
                 db.session.add(new_user)
                 db.session.commit()
                 login_user(new_user)
-                return {"status": "OK"}
+                return {"status": 200}
         abort(400)
         # TOOD: login the user
 
