@@ -1,5 +1,6 @@
 aniso8601==0.92
 Flask==0.10.1
+Flask-Login==0.2.11
 Flask-Passlib==0.1
 Flask-RESTful==0.3.2
 Flask-SQLAlchemy==2.0
