@@ -24,8 +24,8 @@ class LoginRegister(restful.Resource):
         return make_response(render_template('login.html'), 200, headers)
 
     def post(self):
-        from models import User
         # TODO: login the user
+        from models import User
         try:
             obj = json.loads(request.data)
         except ValueError:
@@ -41,7 +41,26 @@ class LoginRegister(restful.Resource):
 
     def put(self):
         # TODO: register the user
-        return "register"
+        from models import User
+        from karma import db
+
+        try:
+            obj = json.loads(request.data)
+        except ValueError:
+            abort(400)
+
+        if obj is not None:
+            user = User.query.filter_by(username=obj['user']['username']).first()
+            print user
+            if not user:
+                new_user = User(username=obj['user']['username'],
+                                password=obj['user']['password'])
+                db.session.add(new_user)
+                db.session.commit()
+                login_user(new_user)
+                return {"status": "OK"}
+        abort(400)
+        # TOOD: login the user
 
 
 rest.add_resource(IndexPage, '/')
