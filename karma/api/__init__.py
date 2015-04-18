@@ -10,8 +10,8 @@ api = Blueprint("api", __name__, template_folder="templates")
 
 rest = Api(api)
 
-from karma.api.charity import Charity
+from karma.api.charity import Charity, Charities
 
 # Adding resources
-rest.add_resource(Charity, '/charities/<string:charity_name>')
-# rest.add_resource(Charities, '/charities/')
+rest.add_resource(Charity, '/charities/<int:charity_name>')
+rest.add_resource(Charities, '/charities/')
