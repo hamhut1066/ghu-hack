@@ -45,15 +45,21 @@ class LoginRegister(restful.Resource):
 
         try:
             obj = json.loads(request.data)
-        except ValueError:
+        except (ValueError, KeyError):
             abort(400)
 
         if obj is not None:
+            try:
+                description = obj['user']['description']
+            except KeyError:
+                description = None
             user = User.query.filter_by(
                 username=obj['user']['username']).first()
             if not user:
+                print obj['user']['password']
                 new_user = User(username=obj['user']['username'],
-                                password=obj['user']['password'])
+                                password=obj['user']['password'],
+                                description=description)
                 db.session.add(new_user)
                 db.session.commit()
                 login_user(new_user, remember=True)
