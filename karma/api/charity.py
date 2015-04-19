@@ -53,3 +53,17 @@ class Charities(Resource):
             ret.append(create_response(charity))
         ret.reverse()
         return {"data": ret}
+
+
+class TopCharity(Resource):
+    def get(self):
+
+        charities = C.query.all()
+
+        s_charities = list()
+        for charity in charities:
+            s_charities.append(
+                (len(charity.followers), charity)
+            )
+        s_charities.sort(reverse=True)
+        return {"data": map(lambda x: create_response(x[1]), s_charities)}
