@@ -95,4 +95,4 @@ class Top(Resource):
             )
         sorted_users.sort()
         sorted_users.reverse()
-        return {"data": map(lambda x: create_response(x), users)}
+        return {"data": map(lambda x: create_response(x[1]), sorted_users)}
