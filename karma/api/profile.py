@@ -93,6 +93,5 @@ class Top(Resource):
             sorted_users.append(
                 (len(user.followers), user)
             )
-        sorted_users.sort()
-        sorted_users.reverse()
+        sorted_users.sort(reverse=True)
         return {"data": map(lambda x: create_response(x[1]), sorted_users)}
