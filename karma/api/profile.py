@@ -14,6 +14,9 @@ def generate_gravatar(email):
 
     size = 512
 
+    if not email:
+        email = "."
+
     gravatar_url = hashlib.md5(email.lower()).hexdigest() + "?"
     gravatar_url += urllib.urlencode({'s':str(size)})
 
