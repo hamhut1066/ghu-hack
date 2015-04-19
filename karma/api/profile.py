@@ -7,12 +7,17 @@ from karma.models import User
 from karma import db
 
 
-def create_response(user):
+def create_response(user, recursing=False):
+    if recursing:
+        return {
+            "id": user.id,
+            "username": user.username}
     return {
         "id": user.id,
         "username": user.username,
-        "following_users": map(lambda x: create_response(x), user.following_users),
-        "following": user.following}
+        "following_users": map(lambda x: create_response(x, recursing=True), user.following_users),
+        "followers": map(lambda x: create_response(x, recursing=True), user.followers),
+        "following_charities": user.following_charities}
 
 
 class Profile(Resource):
