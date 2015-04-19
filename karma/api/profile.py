@@ -4,6 +4,8 @@ from flask import request
 import json
 from flask.ext.restful import Resource
 from karma.models import User
+from karma.api.models.post import Post
+from karma.api import post
 from karma import db
 
 
@@ -58,3 +60,25 @@ class Profiles(Resource):
 
         ret.reverse
         return {"data": ret}
+
+
+class Feed(Resource):
+    def get(self, profile_id):
+        user = User.query.get_or_404(profile_id)
+
+        try:
+            your_posts = Post.query.filter_by(user_id=user.id)
+            following_users_post = list()
+            for _user in user.following_users:
+                if _user == user:
+                    continue
+                following_users_post += Post.query.filter_by(user_id=_user.id)
+            return {
+                "data": {
+                    "posts": map(lambda x: post.create_response(x), your_posts),
+                    "following_posts": map(lambda x: post.create_response(x), following_users_post)
+                }
+            }
+        except Exception:
+            raise
+            return {"status": 400}
