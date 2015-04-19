@@ -14,13 +14,13 @@ def create_response(charity, recursing=False):
         return {
             "id": charity.id,
             "name": charity.name,
-            "type": "charity",
+            "charity": True,
             "description": charity.description}
     return {
         "id": charity.id,
         "name": charity.name,
         "description": charity.description,
-        "type": "charity",
+        "charity": True,
         "followers": map(lambda x: profile.create_response(x, recursing=True), charity.followers)
     }
 

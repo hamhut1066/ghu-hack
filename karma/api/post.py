@@ -15,13 +15,13 @@ def create_response(p, recursing=False):
             "id": p.id,
             "title": p.title,
             "content": p.content,
-            "type": "post",
+            "charity": False,
             "user_id": p.user_id}
     return {
         "id": p.id,
         "title": p.title,
         "content": p.content,
-        "type": "post",
+        "charity": False,
         "karma": map(lambda x: profile.create_response(x, recursing=True),
                      p.karma),
         "user_id": p.user_id}
