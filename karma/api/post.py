@@ -44,7 +44,7 @@ class Post(Resource):
         try:
             obj = json.loads(request.data)
             user = User.query.get(obj['user'])
-        except ValueError, KeyError:
+        except (ValueError, KeyError):
             return {"status": 400}
         p = P.query.get_or_404(post_id)
 
