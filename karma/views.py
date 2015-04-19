@@ -65,7 +65,6 @@ class LoginRegister(restful.Resource):
                 login_user(new_user, remember=True)
                 return {"status": 200, "user": new_user.id}
         return {"status": 400}
-        # TOOD: login the user
 
 
 rest.add_resource(IndexPage, '/')
