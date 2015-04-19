@@ -9,6 +9,16 @@ from karma.api import post
 from karma import db
 
 
+def generate_gravatar(email):
+    import urllib, hashlib
+
+    size = 60
+
+    gravatar_url = "http://www.gravatar.com/avatar/" + hashlib.md5(email.lower()).hexdigest() + "?"
+    gravatar_url += urllib.urlencode({'s':str(size)})
+
+    return gravatar_url
+    
 def create_response(user, recursing=False):
     from karma.api import charity, post
     if recursing:
@@ -16,11 +26,13 @@ def create_response(user, recursing=False):
             "id": user.id,
             "description": user.description,
             "charity": False,
+            "gravatar": generate_gravatar(user.email),
             "username": user.username}
     return {
         "id": user.id,
         "username": user.username,
         "charity": False,
+        "gravatar": generate_gravatar(user.email),
         "description": user.description,
         "liked_posts": map(lambda x: post.create_response(x, recursing=True), user.liked_posts),
         "following_users": map(lambda x: create_response(x, recursing=True), user.following_users),
