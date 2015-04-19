@@ -32,7 +32,8 @@ class User(db.Model, UserMixin):
                                       secondaryjoin=id==association_table2.c.right_id,
                                       backref='followers')
     following_charities = db.relationship('Charity',
-                                secondary=association_table)
+                                          secondary=association_table,
+                                          backref='followers')
 
     def __init__(self, username=None, password=None):
         if username:
