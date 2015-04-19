@@ -8,7 +8,7 @@ from karma import db
 
 
 def create_response(user, recursing=False):
-    from karma.api import charity
+    from karma.api import charity, post
     if recursing:
         return {
             "id": user.id,
@@ -16,6 +16,7 @@ def create_response(user, recursing=False):
     return {
         "id": user.id,
         "username": user.username,
+        "liked_posts": map(lambda x: post.create_response(x, recursing=True), user.liked_posts),
         "following_users": map(lambda x: create_response(x, recursing=True), user.following_users),
         "followers": map(lambda x: create_response(x, recursing=True), user.followers),
         "following_charities": map(lambda x: charity.create_response(x, recursing=True), user.following_charities)}

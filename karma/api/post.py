@@ -8,6 +8,23 @@ from karma.models import User
 from karma import db
 
 
+def create_response(p, recursing=False):
+    from karma.api import profile
+    if recursing:
+        return {
+            "id": p.id,
+            "title": p.title,
+            "content": p.content,
+            "user_id": p.user_id}
+    return {
+        "id": p.id,
+        "title": p.title,
+        "content": p.content,
+        "karma": map(lambda x: profile.create_response(x, recursing=True),
+                     p.karma),
+        "user_id": p.user_id}
+
+
 class Post(Resource):
 
     def __init__(self, title=None, content=None, user_id=None):
@@ -21,11 +38,21 @@ class Post(Resource):
     def get(self, post_id):
         p = P.query.filter_by(id=post_id).first_or_404()
 
-        return {
-            "id": p.id,
-            "title": p.title,
-            "content": p.content,
-            "user_id": p.user_id}
+        return create_response(p)
+
+    def put(self, post_id):
+        try:
+            obj = json.loads(request.data)
+        except ValueError:
+            return {"status": 400}
+        p = P.query.get_or_404(post_id)
+        user = User.query.get(obj['user'])
+
+        p.karma.append(user)
+        db.session.add(p)
+        db.session.commit()
+
+        return create_response(p)
 
 
 class Posts(Resource):
@@ -35,12 +62,7 @@ class Posts(Resource):
         ret = list()
 
         for post in posts:
-            ret.append({
-                "id": post.id,
-                "title": post.title,
-                "content": post.content,
-                "user_id": post.user_id
-            })
+            ret.append(create_response(post))
         ret.reverse()
         return {"data": ret}
 
@@ -59,8 +81,4 @@ class Posts(Resource):
         db.session.add(p)
         db.session.commit()
 
-        return {
-            "id": p.id,
-            "title": p.title,
-            "content": p.content,
-            "user_id": p.user_id}
+        return create_response(p)

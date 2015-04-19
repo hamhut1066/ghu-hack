@@ -35,6 +35,7 @@ class User(db.Model, UserMixin):
                                           secondary=association_table,
                                           backref='followers')
 
+    
     def __init__(self, username=None, password=None):
         if username:
             self.username = username
