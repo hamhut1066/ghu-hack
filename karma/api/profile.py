@@ -12,10 +12,12 @@ def create_response(user, recursing=False):
     if recursing:
         return {
             "id": user.id,
+            "description": user.description,
             "username": user.username}
     return {
         "id": user.id,
         "username": user.username,
+        "description": user.description,
         "liked_posts": map(lambda x: post.create_response(x, recursing=True), user.liked_posts),
         "following_users": map(lambda x: create_response(x, recursing=True), user.following_users),
         "followers": map(lambda x: create_response(x, recursing=True), user.followers),

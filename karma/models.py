@@ -26,6 +26,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(32), index=True)
     password_hash = db.Column(db.String(128))
+    description = db.Column(db.String(1000))
     following_users = db.relationship('User',
                                       secondary=association_table2,
                                       primaryjoin=id==association_table2.c.left_id,
@@ -35,12 +36,13 @@ class User(db.Model, UserMixin):
                                           secondary=association_table,
                                           backref='followers')
 
-    
-    def __init__(self, username=None, password=None):
+    def __init__(self, username=None, description=None, password=None):
         if username:
             self.username = username
         if password:
             self.hash_password(password)
+        if description:
+            self.description = description
 
     def hash_password(self, password):
         self.password_hash = pwd_context.encrypt(password)

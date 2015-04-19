@@ -43,16 +43,18 @@ class Post(Resource):
     def put(self, post_id):
         try:
             obj = json.loads(request.data)
-        except ValueError:
+            user = User.query.get(obj['user'])
+        except ValueError, KeyError:
             return {"status": 400}
         p = P.query.get_or_404(post_id)
-        user = User.query.get(obj['user'])
 
-        p.karma.append(user)
-        db.session.add(p)
-        db.session.commit()
+        if user not in p.karma:
+            p.karma.append(user)
+            db.session.add(p)
+            db.session.commit()
 
-        return create_response(p)
+            return create_response(p)
+        return {"status": 400}
 
 
 class Posts(Resource):
