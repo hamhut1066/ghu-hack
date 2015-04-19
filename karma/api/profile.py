@@ -12,7 +12,7 @@ from karma import db
 def generate_gravatar(email):
     import urllib, hashlib
 
-    size = 60
+    size = 512
 
     gravatar_url = hashlib.md5(email.lower()).hexdigest() + "?"
     gravatar_url += urllib.urlencode({'s':str(size)})
