@@ -36,6 +36,9 @@ class Charity(Resource):
             return {"status": 400}
         user = User.query.get_or_404(obj['user'])
         charity = C.query.get_or_404(charity_name)
+        if charity in user.following_charities:
+            return {"status": 400}
+
         user.following_charities.append(charity)
         db.session.add(user)
         db.session.commit()
