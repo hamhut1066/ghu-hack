@@ -82,3 +82,17 @@ class Feed(Resource):
         except Exception:
             raise
             return {"status": 400}
+
+
+class Top(Resource):
+    def get(self):
+        users = User.query.all()
+        sorted_users = list()
+
+        for user in users:
+            sorted_users.append(
+                (len(user.followers), user)
+            )
+        sorted_users.sort()
+        sorted_users.reverse()
+        return {"data": map(lambda x: create_response(x), users)}
