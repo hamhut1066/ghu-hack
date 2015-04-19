@@ -8,10 +8,17 @@ from passlib.apps import custom_app_context as pwd_context
 
 association_table = db.Table('association', db.Model.metadata,
                              db.Column('left_id',
+                                       db.Integer, db.ForeignKey('user.id'), primary_key=True),
+                             db.Column('right_id',
+                                       db.Integer, db.ForeignKey('charity.id'), primary_key=True)
+                             )
+association_table2 = db.Table('association2', db.Model.metadata,
+                             db.Column('left_id',
                                        db.Integer, db.ForeignKey('user.id')),
                              db.Column('right_id',
-                                       db.Integer, db.ForeignKey('charity.id'))
+                                       db.Integer, db.ForeignKey('user.id'))
                              )
+
 
 
 class User(db.Model, UserMixin):
@@ -19,6 +26,11 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(32), index=True)
     password_hash = db.Column(db.String(128))
+    following_users = db.relationship('User',
+                                      secondary=association_table2,
+                                      primaryjoin=id==association_table2.c.left_id,
+                                      secondaryjoin=id==association_table2.c.right_id,
+                                      backref='followers')
     following = db.relationship('Charity',
                                 secondary=association_table)
 
